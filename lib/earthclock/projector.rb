@@ -6,6 +6,20 @@ require "gtk3"
 
 module EarthClock
   class Projector
+    # Hardcoded longitudinal fudge to align our simplified geometry
+    # (circular lunar orbit, no libration) and texture conventions with a
+    # well‑known reference renderer (Fourmilab Earth View).
+    #
+    # Rationale:
+    # - Small constant east/west disagreement can arise from differing
+    #   meridian conventions and texture seam placement.
+    # - Larger steady offsets (hours) can result from our coarse Moon model
+    #   compared to higher‑fidelity references.
+    # We apply a fixed yaw about Earth's Z before projection so continents
+    # line up visually with the reference. Adjust if you later adopt a
+    # higher‑accuracy ephemeris or a different texture seam.
+    FUDGE_LON_DEG = -200.0
+
     def initialize(width, height, earth_model, astro, shading)
       @width = width
       @height = height
@@ -66,6 +80,9 @@ module EarthClock
         [u[0], u[1], u[2]],
         [f[0], f[1], f[2]]
       ]
+      # Apply constant longitudinal fudge (yaw about Earth Z, degrees east)
+      fudge_rad = FUDGE_LON_DEG * Math::PI / 180.0
+      r_ecef_to_view = r_ecef_to_view * rot_z(fudge_rad)
       # Apply constant roll calibration about view Z (clockwise positive on screen)
       # Previous trim put north 180° off; add 180° to correct.
       roll_deg = 225.0

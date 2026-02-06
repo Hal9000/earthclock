@@ -2,6 +2,8 @@
 
 Render Earth as seen from the Moon (Apollo 11 site), onto a circular display. Pure Ruby + GTK/Cairo. No libration, no nutation; axial tilt and seasons are represented via lighting.
 
+### Compare against https://www.fourmilab.ch/cgi-bin/Earth/action?opt=-m  (believed to be correct); it does give a north/south view, unlike this app.
+
 ### Requirements (macOS)
 - Ruby 3.x (rbenv recommended)
 - Homebrew packages:
