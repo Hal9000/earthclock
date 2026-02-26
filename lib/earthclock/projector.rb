@@ -84,8 +84,8 @@ module EarthClock
       fudge_rad = FUDGE_LON_DEG * Math::PI / 180.0
       r_ecef_to_view = r_ecef_to_view * rot_z(fudge_rad)
       # Apply constant roll calibration about view Z (clockwise positive on screen)
-      # Previous trim put north 180° off; add 180° to correct.
-      roll_deg = 225.0
+      # Increase clockwise tilt by ~20° (opposite of previous change).
+      roll_deg = 245.0
       roll_rad = roll_deg * Math::PI / 180.0
       r_ecef_to_view = rot_z(roll_rad) * r_ecef_to_view
 
